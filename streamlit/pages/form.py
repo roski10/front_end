@@ -79,8 +79,8 @@ def main():
         play_audio = False
 
     # Model and transformer for results
-        model = jl.load("model/xgbmodel.pkl")
-        transformer = jl.load("model/preprocessor.pkl")
+        model = jl.load("app/front_end/streamlit/model/xgbmodel.pkl")
+        transformer = jl.load("app/front_end/streamlit/model/preprocessor.pkl")
 
         x = pd.DataFrame({"loan_amount_000s": loan_amount,
                         "loan_purpose_name":loan_purpose_name,
