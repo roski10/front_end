@@ -8,7 +8,8 @@ from PIL import Image
 import base64
 import time
 
-
+import os
+st.write(os.getcwd())
 
 @st.cache
 def read_audio_file(file_path):
