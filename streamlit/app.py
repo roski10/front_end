@@ -16,13 +16,13 @@ Our loan approval model is designed to help you navigate the loan application pr
 
 Here are some of the key benefits of using our loan approval model:
 
-Faster and more accurate loan approvals: With our model, you can receive a loan approval decision in a matter of minutes, rather than waiting days or weeks for a traditional lender to review your application.
+- Faster and more accurate loan approvals: With our model, you can receive a loan approval decision in a matter of minutes, rather than waiting days or weeks for a traditional lender to review your application.
 
-Increased transparency: Our loan approval model provides you with a clear understanding of the factors that are influencing your loan approval decision. This can help you make more informed decisions about your finances.
+- Increased transparency: Our loan approval model provides you with a clear understanding of the factors that are influencing your loan approval decision. This can help you make more informed decisions about your finances.
 
-Personalized recommendations: Our loan approval model takes your unique financial situation into account, providing you with personalized recommendations for loan products that are best suited to your needs.
+- Personalized recommendations: Our loan approval model takes your unique financial situation into account, providing you with personalized recommendations for loan products that are best suited to your needs.
 
-Easy to use: Our loan approval model is user-friendly and intuitive, making it easy for you to input your information and receive a loan approval decision.
+- Easy to use: Our loan approval model is user-friendly and intuitive, making it easy for you to input your information and receive a loan approval decision.
 
 Whether you're looking to finance a home, a car, or any other major purchase, our loan approval model can help make the process easier and more streamlined.
 
