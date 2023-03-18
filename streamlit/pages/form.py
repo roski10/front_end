@@ -5,21 +5,23 @@ import numpy as np
 import pandas as pd
 from streamlit_player import st_player
 import joblib as jl
+from PIL import Image
+import base64
+import time
 
 
-#Embed the music
+
+##Embed the music
 audio_file = open('media_files/GTA-song.mp3', 'rb')
 audio_bytes = audio_file.read()
 #st.audio(audio_bytes, format='audio/ogg')
-import base64
-import time
 mymidia_placeholder = st.empty()
 mymidia_str = "data:audio/ogg;base64,%s"%(base64.b64encode(audio_bytes).decode())
 mymidia_html = """
-                <audio autoplay class="stAudio">
-                <source src="%s" type="audio/ogg">
-                Your browser does not support the audio element.
-                </audio>
+                #<audio autoplay class="stAudio">
+                #<source src="%s" type="audio/ogg">
+                #Your browser does not support the audio element.
+                #</audio>
             """%mymidia_str
 mymidia_placeholder.empty()
 time.sleep(1)
@@ -36,7 +38,7 @@ def main():
         lien_status_name = st.selectbox('What is the lien status of the loan?',(' ','Secured by a first lien', 'Secured by a subordinate lien', 'Not secured by a lien'))
         loan_type_name = st.selectbox('What is the type of loan you are applying for?',(' ','Conventional','FHA-insured', 'VA-guaranteed', 'FSA/RHS-guaranteed'))
         principal_dwelling = st.selectbox('Does the Owner intend to occupy the property as their principal dwelling?',(' ','Owner-occupied as a principal dwelling', 'Not owner-occupied as a principal dwelling' ))
-        property_region = st.selectbox('What is the region of the property?',(' ','Northern Cascades','Western  Region','Eastern Washington', 'Southwest Washington','Olympic peninsula'))
+        property_region = st.selectbox('What is the region of the property?',(' ','Northern Cascades','Western Region','Eastern Washington', 'Southwest Washington','Olympic peninsula'))
 
         col1, col2 = st.columns(2)
         with col1:
@@ -81,8 +83,8 @@ def main():
                         "property_type_name": 'One-to-four family dwelling (other than manufactured housing)',
                         "preapproval_name": 'Not applicable',
                         "hoepa_status_name": 'Not a HOEPA loan',
-                        "co_applicant_race_name_1": main_app_ethnicity,
-                        "applicant_race_name_1": co_app_ethnicity,
+                        "co_applicant_race_name_1": co_app_ethnicity,
+                        "applicant_race_name_1": main_app_ethnicity,
                         },index=[0])
 
 
@@ -90,7 +92,31 @@ def main():
 
         result = model.predict(x_transformed)
 
-        st.write(result)
+        #st.write(result)
+
+        if result[0] == 0:
+            image2 = Image.open('media_files/wasted.png')
+            st.image(image2, use_column_width=True)
+
+            audio_file2 = open('media_files/wasted.mp3', 'rb')
+            audio_bytes2 = audio_file2.read()
+            mymidia_placeholder2 = st.empty()
+            mymidia_str2 = "data:audio/ogg;base64,%s"%(base64.b64encode(audio_bytes2).decode())
+            mymidia_html2 = """
+                            <audio autoplay class="stAudio">
+                            <source src="%s" type="audio/ogg">
+                            Your browser does not support the audio element.
+                            </audio>
+                            """%mymidia_str2
+            mymidia_placeholder2.empty()
+            time.sleep(1)
+            mymidia_placeholder2.markdown(mymidia_html2, unsafe_allow_html=True)
+
+        else:
+            image3 = Image.open('media_files/misson-passed.png')
+            st.image(image3, use_column_width=True)
+            st.balloons()
+
 
 if __name__== '__main__':
     main()
