@@ -37,24 +37,54 @@ def main():
         loan_type_name = st.selectbox('What is the type of loan you are applying for?',(' ','Conventional','FHA-insured', 'VA-guaranteed', 'FSA/RHS-guaranteed'))
         principal_dwelling = st.selectbox('Does the Owner intend to occupy the property as their principal dwelling?',(' ','Yes', 'No'))
         property_region = st.selectbox('What is the region of the property?',(' ','Northern Cascades','Western  Region','Eastern Washington', 'Southwest Washington','Olympic peninsula'))
-        main_applicant_full_name = st.text_input("Full name of main applicant")
-        co_applicant_full_name = st.text_input("Full name of co applicant")
-        main_dob = st.date_input("Date of Birth")
-        co_dob = st.date_input("Date of Birth")
-        main_app_gender = st.selectbox('What is the gender of the main applicant?',(' ','male', 'female'))
-        co_app_gender = st.selectbox('What is the gender of the co applicant?',(' ','male', 'female'))
-        main_app_ethnicity = st.selectbox('What is the ethnicity of the main applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
-        co_app_ethnicity = st.selectbox('What is the ethnicity of the co applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
+
+        col1, col2 = st.columns(2)
+        with col1:
+            main_applicant_full_name = st.text_input("Full name of main applicant")
+            main_dob = st.date_input("Date of Birth of main applicant")
+            main_app_gender = st.selectbox('What is the gender of the main applicant?',(' ','male', 'female'))
+            main_app_ethnicity = st.selectbox('What is the ethnicity of the main applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
+            applicant_income_000s = st.number_input('Insert the main applicant income in 000s')
+
+        with col2:
+            co_applicant_full_name = st.text_input("Full name of co applicant")
+            co_dob = st.date_input("Date of Birth of co applicant")
+            co_app_gender = st.selectbox('What is the gender of the co applicant?',(' ','male', 'female'))
+            co_app_ethnicity = st.selectbox('What is the ethnicity of the co applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
+            co_income_000s = st.number_input('Insert the co applicant income in 000s')
 
         submit_button = st.form_submit_button(label="Submit Form")
     if submit_button:
-        st.success("Thank you {}! We are now checking your loan eligibility...".format(first_name))
+        st.success("Thank you {}! We are now checking your loan eligibility...".format(main_applicant_full_name))
 
 # Model and transformer for results
     model = jl.load("model/xgbmodel.pkl")
     transformer = jl.load("model/preprocessor.pkl")
 
-    x = pd.DataFrame({"first name": first_name,"last name":last_name , "date of birth":dob , "loan amount":loan_amount })
+    x = pd.DataFrame({"loan_amount_000s": loan_amount,
+                      "loan_purpose_name":loan_purpose_name,
+                      "lien_status_name":lien_status_name,
+                      "loan_type_name":loan_type_name,
+                      "owner_occupancy_name": principal_dwelling,
+                      "region": property_region,
+                      "applicant_sex_name":main_app_gender,
+                      "applicant_ethnicity_name": if main_app_ethnicity == ,
+                      "co_applicant_sex_name": 0,
+                      "co_applicant_ethnicity_name":0,
+                      "tract_to_msamd_income":0,
+                      "population": 0,
+                      "minority_population": 0,
+                      "number_of_owner_occupied_units": 0,
+                      "number_of_1_to_4_family_units": 0,
+                      "hud_median_family_income": 0,
+                      "applicant_income_000s": applicant_income_000s,
+                      "property_type_name": 0,
+                      "preapproval_name": 0,
+                      "hoepa_status_name": 0,
+                      "co_applicant_race_name_1": main_app_ethnicity,
+                      "applicant_race_name_1": co_app_ethnicity,
+
+                      })
     x_transformed = transformer.transform(x)
 
     result = model.predict(x_transformed)
