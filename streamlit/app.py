@@ -5,7 +5,7 @@ import joblib as jl
 
 
 from PIL import Image
-image = Image.open('media_files/GTA.png')
+image = Image.open('/app/front_end/streamlit/media_files/GTA.png')
 st.image(image, use_column_width=True)
 
 
