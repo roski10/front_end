@@ -49,8 +49,8 @@ def main():
         with col2:
             co_applicant_full_name = st.text_input("Full name of co applicant")
             co_dob = st.date_input("Date of Birth of co applicant")
-            co_app_gender = st.selectbox('What is the gender of the co applicant?',(' ','Male', 'Female'))
-            co_app_ethnicity = st.selectbox('What is the ethnicity of the co applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
+            co_app_gender = st.selectbox('What is the gender of the co applicant?',(' ','Male', 'Female', 'No co-applicant'))
+            co_app_ethnicity = st.selectbox('What is the ethnicity of the co applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native', 'No co-applicant'))
             co_income_000s = st.number_input('Insert the co applicant income in 000s')
 
         submit_button = st.form_submit_button(label="Submit Form")
@@ -83,7 +83,6 @@ def main():
                         "hoepa_status_name": 'Not a HOEPA loan',
                         "co_applicant_race_name_1": main_app_ethnicity,
                         "applicant_race_name_1": co_app_ethnicity,
-                        "agency_name": 'Department of Housing and Urban Development'
                         },index=[0])
 
 

@@ -4,12 +4,14 @@ import pandas as pd
 from streamlit_player import st_player
 import joblib as jl
 
+
 from PIL import Image
 image = Image.open('media_files/GTA.png')
 st.image(image, use_column_width=True)
 
-st.markdown("""# GTA Mortgage approval form
-## Using ML to get your dream home faster
+
+st.markdown("""
+# Using ML to get your dream home faster
 Welcome to our Loan Approval Model landing page! At GTA, we understand that securing a loan can be a stressful and overwhelming process. That's why we've developed a loan approval model that makes it easier than ever to get the financing you need.
 
 Our loan approval model is designed to help you navigate the loan application process with confidence. By using advanced data analysis and machine learning algorithms, our model is able to accurately predict your likelihood of getting approved for a loan based on a variety of factors, including your credit score, income, and employment history.
@@ -28,6 +30,10 @@ Whether you're looking to finance a home, a car, or any other major purchase, ou
 
 Try it out today and see how we can help you get the financing you need.
 """)
+
+
+
+
 
 # Code below is needed for the next and previous buttons
 from streamlit.components.v1 import html
