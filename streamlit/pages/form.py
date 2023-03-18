@@ -80,8 +80,8 @@ def main():
         play_audio = False
 
     # Model and transformer for results
-        model = jl.load("app/front_end/streamlit/model/xgbmodel.pkl")
-        transformer = jl.load("app/front_end/streamlit/model/preprocessor.pkl")
+        model = jl.load("streamlit/model/xgbmodel.pkl")
+        transformer = jl.load("streamlit/model/preprocessor.pkl")
 
         x = pd.DataFrame({"loan_amount_000s": loan_amount,
                         "loan_purpose_name":loan_purpose_name,
@@ -115,13 +115,13 @@ def main():
         #st.write(result)
 
         if result[0] == 0:
-            image2 = Image.open('/app/front_end/streamlit/media_files/wasted.png')
+            image2 = Image.open('streamlit/media_files/wasted.png')
             st.image(image2, use_column_width=True)
             play_audio = False
-            embed_music('/app/front_end/streamlit/media_files/wasted.mp3',play_audio=True)
+            embed_music('streamlit/media_files/wasted.mp3',play_audio=True)
 
         else:
-            image3 = Image.open('/app/front_end/streamlit/media_files/misson-passed.png')
+            image3 = Image.open('streamlit/media_files/misson-passed.png')
             st.image(image3, use_column_width=True)
             st.balloons()
 
