@@ -43,7 +43,7 @@ play_audio = True
 if st.checkbox("Toggle audio playback"):
     play_audio = not play_audio
 
-embed_music('media_files/GTA-song.mp3', play_audio)
+embed_music('/app/front_end/streamlit/media_files/GTA-song.mp3', play_audio)
 
 
 def main():
@@ -114,13 +114,13 @@ def main():
         #st.write(result)
 
         if result[0] == 0:
-            image2 = Image.open('media_files/wasted.png')
+            image2 = Image.open('/app/front_end/streamlit/media_files/wasted.png')
             st.image(image2, use_column_width=True)
             play_audio = False
-            embed_music('media_files/wasted.mp3',play_audio=True)
+            embed_music('/app/front_end/streamlit/media_files/wasted.mp3',play_audio=True)
 
         else:
-            image3 = Image.open('media_files/misson-passed.png')
+            image3 = Image.open('/app/front_end/streamlit/media_files/misson-passed.png')
             st.image(image3, use_column_width=True)
             st.balloons()
 
