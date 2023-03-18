@@ -10,7 +10,7 @@ import time
 
 
 
-@st.cache_data
+@st.cache
 def read_audio_file(file_path):
     with open(file_path, 'rb') as audio_file:
         audio_bytes = audio_file.read()
