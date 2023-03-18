@@ -3,7 +3,6 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from streamlit_player import st_player
 import joblib as jl
 from PIL import Image
 import base64
