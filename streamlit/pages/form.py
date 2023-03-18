@@ -11,21 +11,40 @@ import time
 
 
 
-##Embed the music
-audio_file = open('media_files/GTA-song.mp3', 'rb')
-audio_bytes = audio_file.read()
-#st.audio(audio_bytes, format='audio/ogg')
-mymidia_placeholder = st.empty()
-mymidia_str = "data:audio/ogg;base64,%s"%(base64.b64encode(audio_bytes).decode())
-mymidia_html = """
-                #<audio autoplay class="stAudio">
-                #<source src="%s" type="audio/ogg">
-                #Your browser does not support the audio element.
-                #</audio>
-            """%mymidia_str
-mymidia_placeholder.empty()
-time.sleep(1)
-mymidia_placeholder.markdown(mymidia_html, unsafe_allow_html=True)
+@st.cache_data
+def read_audio_file(file_path):
+    with open(file_path, 'rb') as audio_file:
+        audio_bytes = audio_file.read()
+    return audio_bytes
+
+def embed_music(file_path, play_audio):
+    if play_audio:
+        # Embed the music
+        audio_bytes = read_audio_file(file_path)
+
+        mymidia_placeholder = st.empty()
+        mymidia_str = "data:audio/ogg;base64,%s" % (base64.b64encode(audio_bytes).decode())
+        mymidia_html = """
+                        <audio autoplay class="stAudio">
+                        <source src="%s" type="audio/ogg">
+                        Your browser does not support the audio element.
+                        </audio>
+                    """ % mymidia_str
+        mymidia_placeholder.empty()
+        time.sleep(1)
+        mymidia_placeholder.markdown(mymidia_html, unsafe_allow_html=True)
+
+    else:
+        st.write("Audio stopped")
+
+# Usage
+play_audio = True
+
+
+if st.checkbox("Toggle audio playback"):
+    play_audio = not play_audio
+
+embed_music('media_files/GTA-song.mp3', play_audio)
 
 
 def main():
@@ -51,13 +70,14 @@ def main():
         with col2:
             co_applicant_full_name = st.text_input("Full name of co applicant")
             co_dob = st.date_input("Date of Birth of co applicant")
-            co_app_gender = st.selectbox('What is the gender of the co applicant?',(' ','Male', 'Female', 'No co-applicant'))
-            co_app_ethnicity = st.selectbox('What is the ethnicity of the co applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native', 'No co-applicant'))
+            co_app_gender = st.selectbox('What is the gender of the co applicant?',('No co-applicant','Male', 'Female'))
+            co_app_ethnicity = st.selectbox('What is the ethnicity of the co applicant?',('No co-applicant','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
             co_income_000s = st.number_input('Insert the co applicant income in 000s')
 
         submit_button = st.form_submit_button(label="Submit Form")
     if submit_button:
         st.success("Thank you {}! We are now checking your loan eligibility...".format(main_applicant_full_name))
+        play_audio = False
 
     # Model and transformer for results
         model = jl.load("model/xgbmodel.pkl")
@@ -97,20 +117,8 @@ def main():
         if result[0] == 0:
             image2 = Image.open('media_files/wasted.png')
             st.image(image2, use_column_width=True)
-
-            audio_file2 = open('media_files/wasted.mp3', 'rb')
-            audio_bytes2 = audio_file2.read()
-            mymidia_placeholder2 = st.empty()
-            mymidia_str2 = "data:audio/ogg;base64,%s"%(base64.b64encode(audio_bytes2).decode())
-            mymidia_html2 = """
-                            <audio autoplay class="stAudio">
-                            <source src="%s" type="audio/ogg">
-                            Your browser does not support the audio element.
-                            </audio>
-                            """%mymidia_str2
-            mymidia_placeholder2.empty()
-            time.sleep(1)
-            mymidia_placeholder2.markdown(mymidia_html2, unsafe_allow_html=True)
+            play_audio = False
+            embed_music('media_files/wasted.mp3',play_audio=True)
 
         else:
             image3 = Image.open('media_files/misson-passed.png')
