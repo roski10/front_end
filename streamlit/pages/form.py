@@ -35,21 +35,21 @@ def main():
         loan_purpose_name = st.selectbox('What is the purpose of the loan?',(' ','Refinancing', 'Home purchase', 'Home improvement'))
         lien_status_name = st.selectbox('What is the lien status of the loan?',(' ','Secured by a first lien', 'Secured by a subordinate lien', 'Not secured by a lien'))
         loan_type_name = st.selectbox('What is the type of loan you are applying for?',(' ','Conventional','FHA-insured', 'VA-guaranteed', 'FSA/RHS-guaranteed'))
-        principal_dwelling = st.selectbox('Does the Owner intend to occupy the property as their principal dwelling?',(' ','Yes', 'No'))
+        principal_dwelling = st.selectbox('Does the Owner intend to occupy the property as their principal dwelling?',(' ','Owner-occupied as a principal dwelling', 'Not owner-occupied as a principal dwelling' ))
         property_region = st.selectbox('What is the region of the property?',(' ','Northern Cascades','Western  Region','Eastern Washington', 'Southwest Washington','Olympic peninsula'))
 
         col1, col2 = st.columns(2)
         with col1:
             main_applicant_full_name = st.text_input("Full name of main applicant")
             main_dob = st.date_input("Date of Birth of main applicant")
-            main_app_gender = st.selectbox('What is the gender of the main applicant?',(' ','male', 'female'))
+            main_app_gender = st.selectbox('What is the gender of the main applicant?',(' ','Male', 'Female'))
             main_app_ethnicity = st.selectbox('What is the ethnicity of the main applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
-            applicant_income_000s = st.number_input('Insert the main applicant income in 000s')
+            applicant_income_000s = st.number_input('Insert the main applicant income in 000s', value=10)
 
         with col2:
             co_applicant_full_name = st.text_input("Full name of co applicant")
             co_dob = st.date_input("Date of Birth of co applicant")
-            co_app_gender = st.selectbox('What is the gender of the co applicant?',(' ','male', 'female'))
+            co_app_gender = st.selectbox('What is the gender of the co applicant?',(' ','Male', 'Female'))
             co_app_ethnicity = st.selectbox('What is the ethnicity of the co applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
             co_income_000s = st.number_input('Insert the co applicant income in 000s')
 
@@ -57,38 +57,41 @@ def main():
     if submit_button:
         st.success("Thank you {}! We are now checking your loan eligibility...".format(main_applicant_full_name))
 
-# Model and transformer for results
-    model = jl.load("model/xgbmodel.pkl")
-    transformer = jl.load("model/preprocessor.pkl")
+    # Model and transformer for results
+        model = jl.load("model/xgbmodel.pkl")
+        transformer = jl.load("model/preprocessor.pkl")
 
-    x = pd.DataFrame({"loan_amount_000s": loan_amount,
-                      "loan_purpose_name":loan_purpose_name,
-                      "lien_status_name":lien_status_name,
-                      "loan_type_name":loan_type_name,
-                      "owner_occupancy_name": principal_dwelling,
-                      "region": property_region,
-                      "applicant_sex_name":main_app_gender,
-                      "applicant_ethnicity_name": 'Not Hispanic or Latino',
-                      "co_applicant_sex_name": co_app_gender,
-                      "co_applicant_ethnicity_name":'Not Hispanic or Latino',
-                      "tract_to_msamd_income":105,
-                      "population": 5294,
-                      "minority_population": 25,
-                      "number_of_owner_occupied_units": 1391,
-                      "number_of_1_to_4_family_units": 1825,
-                      "hud_median_family_income": 73300,
-                      "applicant_income_000s": applicant_income_000s,
-                      "property_type_name": 'one-to-four family dwelling (other than manufactured housing)',
-                      "preapproval_name": 'Not applicable',
-                      "hoepa_status_name": 'Not a HOEPA loan',
-                      "co_applicant_race_name_1": main_app_ethnicity,
-                      "applicant_race_name_1": co_app_ethnicity,
-                      })
-    x_transformed = transformer.transform(x)
+        x = pd.DataFrame({"loan_amount_000s": loan_amount,
+                        "loan_purpose_name":loan_purpose_name,
+                        "lien_status_name":lien_status_name,
+                        "loan_type_name":loan_type_name,
+                        "owner_occupancy_name": principal_dwelling,
+                        "region": property_region,
+                        "applicant_sex_name":main_app_gender,
+                        "applicant_ethnicity_name": 'Not Hispanic or Latino',
+                        "co_applicant_sex_name": co_app_gender,
+                        "co_applicant_ethnicity_name":'Not Hispanic or Latino',
+                        "tract_to_msamd_income":105,
+                        "population": 5294,
+                        "minority_population": 25,
+                        "number_of_owner_occupied_units": 1391,
+                        "number_of_1_to_4_family_units": 1825,
+                        "hud_median_family_income": 73300,
+                        "applicant_income_000s": applicant_income_000s,
+                        "property_type_name": 'One-to-four family dwelling (other than manufactured housing)',
+                        "preapproval_name": 'Not applicable',
+                        "hoepa_status_name": 'Not a HOEPA loan',
+                        "co_applicant_race_name_1": main_app_ethnicity,
+                        "applicant_race_name_1": co_app_ethnicity,
+                        "agency_name": 'Department of Housing and Urban Development'
+                        },index=[0])
 
-    result = model.predict(x_transformed)
 
-    print(result)
+        x_transformed = transformer.transform(x)
+
+        result = model.predict(x_transformed)
+
+        st.write(result)
 
 if __name__== '__main__':
     main()
