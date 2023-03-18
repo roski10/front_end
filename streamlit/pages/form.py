@@ -31,10 +31,20 @@ def main():
     menu = ["app","form","credit"]
     choice = st.sidebar.selectbox("Menu",menu)
     with st.form(key='form1'):
-        first_name = st.text_input("First name")
-        last_name = st.text_input("Last name")
-        dob = st.date_input("Date of Birth")
-        loan_amount = st.number_input('Insert the amount of money to borrow')
+        loan_amount = st.number_input('Insert the amount of money to borrow in 000s')
+        loan_purpose_name = st.selectbox('What is the purpose of the loan?',(' ','Refinancing', 'Home purchase', 'Home improvement'))
+        lien_status_name = st.selectbox('What is the lien status of the loan?',(' ','Secured by a first lien', 'Secured by a subordinate lien', 'Not secured by a lien'))
+        loan_type_name = st.selectbox('What is the type of loan you are applying for?',(' ','Conventional','FHA-insured', 'VA-guaranteed', 'FSA/RHS-guaranteed'))
+        principal_dwelling = st.selectbox('Does the Owner intend to occupy the property as their principal dwelling?',(' ','Yes', 'No'))
+        property_region = st.selectbox('What is the region of the property?',(' ','Northern Cascades','Western  Region','Eastern Washington', 'Southwest Washington','Olympic peninsula'))
+        main_applicant_full_name = st.text_input("Full name of main applicant")
+        co_applicant_full_name = st.text_input("Full name of co applicant")
+        main_dob = st.date_input("Date of Birth")
+        co_dob = st.date_input("Date of Birth")
+        main_app_gender = st.selectbox('What is the gender of the main applicant?',(' ','male', 'female'))
+        co_app_gender = st.selectbox('What is the gender of the co applicant?',(' ','male', 'female'))
+        main_app_ethnicity = st.selectbox('What is the ethnicity of the main applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
+        co_app_ethnicity = st.selectbox('What is the ethnicity of the co applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
 
         submit_button = st.form_submit_button(label="Submit Form")
     if submit_button:
