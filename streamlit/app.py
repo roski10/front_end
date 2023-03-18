@@ -60,7 +60,6 @@ def nav_page(page_name, timeout_secs=3):
         </script>
     """ % (page_name, timeout_secs)
     html(nav_script)
-if st.button("credit"):
-    nav_page("credit")
+
 if st.button("form"):
     nav_page("form")

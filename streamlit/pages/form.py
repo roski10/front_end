@@ -52,7 +52,7 @@ def main():
     menu = ["app","form","credit"]
     choice = st.sidebar.selectbox("Menu",menu)
     with st.form(key='form1'):
-        loan_amount = st.number_input('Insert the amount of money to borrow in 000s')
+        loan_amount = st.number_input('Insert the amount of money to borrow in 000s', value = 0)
         loan_purpose_name = st.selectbox('What is the purpose of the loan?',(' ','Refinancing', 'Home purchase', 'Home improvement'))
         lien_status_name = st.selectbox('What is the lien status of the loan?',(' ','Secured by a first lien', 'Secured by a subordinate lien', 'Not secured by a lien'))
         loan_type_name = st.selectbox('What is the type of loan you are applying for?',(' ','Conventional','FHA-insured', 'VA-guaranteed', 'FSA/RHS-guaranteed'))
@@ -110,6 +110,7 @@ def main():
 
         x_transformed = transformer.transform(x)
 
+
         result = model.predict(x_transformed)
 
         #st.write(result)
@@ -158,5 +159,4 @@ def nav_page(page_name, timeout_secs=3):
     html(nav_script)
 if st.button("app"):
     nav_page("app")
-if st.button("credit"):
-    nav_page("credit")
+
