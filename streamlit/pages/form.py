@@ -49,7 +49,7 @@ embed_music('media_files/GTA-song.mp3', play_audio)
 
 def main():
     st.title("GTA Mortgage approval form")
-    menu = ["app","form","credit"]
+    menu = ["app","form"]
     choice = st.sidebar.selectbox("Menu",menu)
     with st.form(key='form1'):
         loan_amount = st.number_input('Insert the amount of money to borrow in 000s')
@@ -124,6 +124,7 @@ def main():
             image3 = Image.open('media_files/misson-passed.png')
             st.image(image3, use_column_width=True)
             st.balloons()
+            embed_music('media_files/yay.mp3',play_audio=True)
 
 
 if __name__== '__main__':
@@ -158,5 +159,3 @@ def nav_page(page_name, timeout_secs=3):
     html(nav_script)
 if st.button("app"):
     nav_page("app")
-if st.button("credit"):
-    nav_page("credit")
