@@ -8,8 +8,6 @@ from PIL import Image
 import base64
 import time
 
-import os
-st.write(os.getcwd())
 
 @st.cache
 def read_audio_file(file_path):
@@ -160,4 +158,3 @@ def nav_page(page_name, timeout_secs=3):
     html(nav_script)
 if st.button("app"):
     nav_page("app")
-
