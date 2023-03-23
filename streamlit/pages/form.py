@@ -60,14 +60,12 @@ def main():
         col1, col2 = st.columns(2)
         with col1:
             main_applicant_full_name = st.text_input("Full name of main applicant")
-            main_dob = st.date_input("Date of Birth of main applicant")
             main_app_gender = st.selectbox('What is the gender of the main applicant?',(' ','Male', 'Female'))
             main_app_ethnicity = st.selectbox('What is the ethnicity of the main applicant?',(' ','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
             applicant_income_000s = st.number_input('Insert the main applicant income in 000s', value=10)
 
         with col2:
             co_applicant_full_name = st.text_input("Full name of co applicant")
-            co_dob = st.date_input("Date of Birth of co applicant")
             co_app_gender = st.selectbox('What is the gender of the co applicant?',('No co-applicant','Male', 'Female'))
             co_app_ethnicity = st.selectbox('What is the ethnicity of the co applicant?',('No co-applicant','White', 'Asian','Black or African American', 'Native Hawaiian or Other Pacific Islander','American Indian or Alaska Native'))
             co_income_000s = st.number_input('Insert the co applicant income in 000s')
