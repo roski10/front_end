@@ -1,12 +1,11 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from streamlit_player import st_player
 import joblib as jl
 
 
 from PIL import Image
-image = Image.open('media_files/GTA.png')
+image = Image.open('/app/front_end/streamlit/media_files/GTA.png')
 st.image(image, use_column_width=True)
 
 
@@ -61,5 +60,6 @@ def nav_page(page_name, timeout_secs=3):
         </script>
     """ % (page_name, timeout_secs)
     html(nav_script)
+
 if st.button("form"):
     nav_page("form")

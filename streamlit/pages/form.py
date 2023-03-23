@@ -3,15 +3,15 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from streamlit_player import st_player
 import joblib as jl
 from PIL import Image
 import base64
 import time
 
+import os
+st.write(os.getcwd())
 
-
-@st.cache_data
+@st.cache
 def read_audio_file(file_path):
     with open(file_path, 'rb') as audio_file:
         audio_bytes = audio_file.read()
@@ -44,7 +44,7 @@ play_audio = True
 if st.checkbox("Toggle audio playback"):
     play_audio = not play_audio
 
-embed_music('media_files/GTA-song.mp3', play_audio)
+embed_music('/app/front_end/streamlit/media_files/GTA-song.mp3', play_audio)
 
 
 def main():
@@ -52,7 +52,7 @@ def main():
     menu = ["app","form"]
     choice = st.sidebar.selectbox("Menu",menu)
     with st.form(key='form1'):
-        loan_amount = st.number_input('Insert the amount of money to borrow in 000s')
+        loan_amount = st.number_input('Insert the amount of money to borrow in 000s', value = 0)
         loan_purpose_name = st.selectbox('What is the purpose of the loan?',(' ','Refinancing', 'Home purchase', 'Home improvement'))
         lien_status_name = st.selectbox('What is the lien status of the loan?',(' ','Secured by a first lien', 'Secured by a subordinate lien', 'Not secured by a lien'))
         loan_type_name = st.selectbox('What is the type of loan you are applying for?',(' ','Conventional','FHA-insured', 'VA-guaranteed', 'FSA/RHS-guaranteed'))
@@ -80,8 +80,8 @@ def main():
         play_audio = False
 
     # Model and transformer for results
-        model = jl.load("model/xgbmodel.pkl")
-        transformer = jl.load("model/preprocessor.pkl")
+        model = jl.load("streamlit/model/xgbmodel.pkl")
+        transformer = jl.load("streamlit/model/preprocessor.pkl")
 
         x = pd.DataFrame({"loan_amount_000s": loan_amount,
                         "loan_purpose_name":loan_purpose_name,
@@ -110,18 +110,19 @@ def main():
 
         x_transformed = transformer.transform(x)
 
+
         result = model.predict(x_transformed)
 
         #st.write(result)
 
         if result[0] == 0:
-            image2 = Image.open('media_files/wasted.png')
+            image2 = Image.open('streamlit/media_files/wasted.png')
             st.image(image2, use_column_width=True)
             play_audio = False
-            embed_music('media_files/wasted.mp3',play_audio=True)
+            embed_music('streamlit/media_files/wasted.mp3',play_audio=True)
 
         else:
-            image3 = Image.open('media_files/misson-passed.png')
+            image3 = Image.open('streamlit/media_files/misson-passed.png')
             st.image(image3, use_column_width=True)
             st.balloons()
             embed_music('media_files/yay.mp3',play_audio=True)
@@ -159,3 +160,4 @@ def nav_page(page_name, timeout_secs=3):
     html(nav_script)
 if st.button("app"):
     nav_page("app")
+
