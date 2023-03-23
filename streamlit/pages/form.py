@@ -123,7 +123,7 @@ def main():
             image3 = Image.open('streamlit/media_files/misson-passed.png')
             st.image(image3, use_column_width=True)
             st.balloons()
-            embed_music('media_files/yay.mp3',play_audio=True)
+            embed_music('streamlit/media_files/yay.mp3',play_audio=True)
 
 
 if __name__== '__main__':
